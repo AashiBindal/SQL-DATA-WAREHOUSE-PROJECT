@@ -41,7 +41,59 @@ business analysis and data-driven decision-making.
 
 The project follows a simple ETL-based data warehouse architecture:
 
-**Source Systems → Data Cleaning & Transformation → Data Warehouse → SQL Analytics → Business Insights**
+
+## 🏗️ High Level Architecture
+
+```mermaid
+flowchart LR
+    subgraph Sources
+        CRM["CRM<br/>CSV Files"]
+        ERP["ERP<br/>CSV Files"]
+    end
+
+    subgraph Data_Warehouse["SQL Server - Data Warehouse"]
+
+        subgraph Bronze["🥉 Bronze Layer"]
+            B1["Stored Procedure"]
+            B2[("Raw Data")]
+            B3["Batch Processing<br/>Full Load<br/>Truncate & Insert"]
+            B1 --> B2 --> B3
+        end
+
+        subgraph Silver["🥈 Silver Layer"]
+            S1["Stored Procedure"]
+            S2[("Cleaned & Standardized Data")]
+            S3["Data Cleansing<br/>Data Standardization<br/>Data Normalization<br/>Derived Columns<br/>Data Enrichment"]
+            S1 --> S2 --> S3
+        end
+
+        subgraph Gold["🥇 Gold Layer"]
+            G1[("Business-Ready Data")]
+            G2["Dimension Views<br/>Fact Views"]
+            G3["Star Schema<br/>Flat Tables<br/>Aggregated Tables"]
+            G1 --> G2 --> G3
+        end
+    end
+
+    subgraph Consumers
+        BI["Power BI & Tableau<br/>Reporting"]
+        SQL["Ad-Hoc SQL Queries"]
+        ML["Machine Learning"]
+    end
+
+    CRM --> B1
+    ERP --> B1
+    B3 --> S1
+    S3 --> G1
+    G3 --> BI
+    G3 --> SQL
+    G3 --> ML
+
+    style Bronze fill:#fff0dc,stroke:#e69a28
+    style Silver fill:#eeeeee,stroke:#888888
+    style Gold fill:#fff4cc,stroke:#d6ad35
+```
+
 
 ### Data Sources
 
