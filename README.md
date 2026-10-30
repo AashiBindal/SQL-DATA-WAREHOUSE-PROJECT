@@ -42,8 +42,6 @@ business analysis and data-driven decision-making.
 The project follows a simple ETL-based data warehouse architecture:
 
 
-## 🏗️ High Level Architecture
-
 ```mermaid
 flowchart LR
     subgraph Sources
